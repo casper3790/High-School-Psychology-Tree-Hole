@@ -11,7 +11,7 @@
         body {
             font-family: 'Inter', 'Microsoft JhengHei', 'sans-serif';
             background-color: #f7f9fb; 
-            transition: background-color 0.3s ease; 
+            transition: background-color 0.5s ease; 
         }
         html { scroll-behavior: smooth; }
 
@@ -21,34 +21,40 @@
             border-radius: 9999px; /* 全圓角 */
             box-shadow: 0 4px 15px -3px rgba(236, 72, 153, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
         }
-        .primary-btn:hover {
+        .primary-btn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px -5px rgba(236, 72, 153, 0.6), 0 5px 8px -4px rgba(0, 0, 0, 0.1);
         }
+        .primary-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
         
-        /* Hero 區塊的漸變背景 - 更有衝擊力 */
+        /* Hero 區塊的漸變背景 */
         #home {
             background: linear-gradient(135deg, #e0f2fe 0%, #d1d5db 100%);
         }
 
-        /* 呼吸法動畫圓圈 (新增 CSS) */
+        /* 呼吸法動畫圓圈 */
         #breathing-circle {
             width: 100px;
             height: 100px;
             background-color: #f472b6; /* Pink-500 */
             border-radius: 50%;
             margin: 0 auto 20px;
-            transition: transform 6s ease-in-out, background-color 0.3s ease;
+            transition: transform 5s ease-in-out, background-color 0.5s ease; /* 調整為 5s 過渡 */
             opacity: 0.8;
             box-shadow: 0 0 20px rgba(244, 114, 182, 0.7);
+            will-change: transform;
         }
 
-        /* Dark Mode Overrides */
+        /* Dark Mode 樣式覆蓋 */
         .dark-mode {
             background-color: #1a202c !important; 
             color: #e2e8f0 !important; 
         }
-        .dark-mode header, .dark-mode footer, .dark-mode section#toolbox, .dark-mode .bg-white, .dark-mode .bg-gray-50, .dark-mode #quote-display, .dark-mode #vent-response { 
+        .dark-mode header, .dark-mode footer, .dark-mode section, .dark-mode .bg-white, .dark-mode .bg-gray-50, .dark-mode #quote-display, .dark-mode #vent-response { 
             background-color: #2d3748 !important; 
             color: #e2e8f0 !important;
         }
@@ -56,24 +62,25 @@
         .dark-mode h1, .dark-mode h2, .dark-mode h3 { color: #ffffff !important; }
         .dark-mode p { color: #a0aec0 !important; }
         .dark-mode .text-gray-600, .dark-mode .text-gray-700 { color: #c0c7d1 !important; }
-
-        /* Dark Mode specific element adjustments */
         .dark-mode #breathing-circle {
             background-color: #db2777; /* Rose-600 */
             box-shadow: 0 0 20px rgba(219, 39, 119, 0.7);
         }
+        .dark-mode textarea {
+             background-color: #4a5568 !important;
+             border-color: #4a5568 !important;
+        }
         
         /* Dark Mode for Deep Rose Help Section */
         .dark-mode section#help {
-            background-color: #881337 !important; /* Deeper shade for dark mode */
+            background-color: #881337 !important; 
         }
         .dark-mode .bg-rose-700 {
-            background-color: #9f1239 !important; /* Slightly lighter card in dark mode */
-        }
-        .dark-mode .text-rose-200 {
-            color: #fecaca !important; /* Ensure visibility */
+            background-color: #9f1239 !important; 
         }
     </style>
+    <!-- 使用 Inter 字體 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body class="text-gray-800">
 
@@ -86,21 +93,21 @@
             <div class="flex items-center space-x-4">
                 <!-- 桌面版導航連結 -->
                 <div class="hidden md:flex space-x-6">
-                    <a href="#stress" class="text-gray-600 hover:text-pink-500 transition duration-300 font-medium">壓力圖鑑</a>
-                    <a href="#toolbox" class="text-gray-600 hover:text-pink-500 transition duration-300 font-medium">心情工具箱</a>
-                    <a href="#alone" class="text-gray-600 hover:text-pink-500 transition duration-300 font-medium">同溫層打氣</a>
-                    <a href="#help" class="text-red-600 hover:text-red-800 transition duration-300 font-bold">🚨 求助專線</a>
+                    <a href="#stress" class="text-gray-600 hover:text-pink-500 transition duration-300 font-medium dark-mode:text-gray-300 dark-mode:hover:text-pink-400">壓力圖鑑</a>
+                    <a href="#toolbox" class="text-gray-600 hover:text-pink-500 transition duration-300 font-medium dark-mode:text-gray-300 dark-mode:hover:text-pink-400">心情工具箱</a>
+                    <a href="#alone" class="text-gray-600 hover:text-pink-500 transition duration-300 font-medium dark-mode:text-gray-300 dark-mode:hover:text-pink-400">同溫層打氣</a>
+                    <a href="#help" class="text-red-600 hover:text-red-800 transition duration-300 font-bold dark-mode:text-red-400 dark-mode:hover:text-red-500">🚨 求助專線</a>
                 </div>
                 
                 <!-- 深淺模式切換按鈕 -->
-                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-pink-500 dark-mode:hover:bg-gray-700">
                     <svg id="sun-icon" class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     <svg id="moon-icon" class="w-6 h-6 text-indigo-300 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                 </button>
 
                 <!-- 手機版選單按鈕 -->
-                <button id="menu-btn" class="md:hidden p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                <button id="menu-btn" class="md:hidden p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark-mode:hover:bg-gray-700">
+                    <svg class="w-6 h-6 text-gray-600 dark-mode:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
             </div>
         </nav>
@@ -108,10 +115,10 @@
         <!-- 手機版下拉選單 -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 dark-mode:bg-gray-800">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#stress" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-pink-50 hover:text-pink-600">壓力圖鑑</a>
-                <a href="#toolbox" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-pink-50 hover:text-pink-600">心情工具箱</a>
-                <a href="#alone" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-pink-50 hover:text-pink-600">同溫層打氣</a>
-                <a href="#help" class="block px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-red-50 hover:text-red-700">🚨 求助專線</a>
+                <a href="#stress" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-pink-50 hover:text-pink-600 dark-mode:text-gray-300 dark-mode:hover:bg-gray-700">壓力圖鑑</a>
+                <a href="#toolbox" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-pink-50 hover:text-pink-600 dark-mode:text-gray-300 dark-mode:hover:bg-gray-700">心情工具箱</a>
+                <a href="#alone" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-pink-50 hover:text-pink-600 dark-mode:text-gray-300 dark-mode:hover:bg-gray-700">同溫層打氣</a>
+                <a href="#help" class="block px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-red-50 hover:text-red-700 dark-mode:text-red-400 dark-mode:hover:bg-gray-700">🚨 求助專線</a>
             </div>
         </div>
     </header>
@@ -120,19 +127,19 @@
     <main>
 
         <!-- 區塊 1: 首頁/英雄區 (Hero Section) -->
-        <section id="home" class="pt-20 pb-28 sm:pt-24 sm:pb-36 transition duration-300">
+        <section id="home" class="pt-20 pb-28 sm:pt-24 sm:pb-36 transition duration-500">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-indigo-900 leading-tight mb-4 transition duration-300">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-indigo-900 leading-tight mb-4 transition duration-500 dark-mode:text-white">
                     Chill Out. You Got This. ✨
                 </h1>
-                <p class="mt-4 text-xl sm:text-2xl text-indigo-700 max-w-3xl mx-auto transition duration-300">
+                <p class="mt-4 text-xl sm:text-2xl text-indigo-700 max-w-3xl mx-auto transition duration-500 dark-mode:text-indigo-300">
                     上課、段考、報告、社團、還有那些八卦... **先登出一下！** 這裡專為正在打怪的高中職生設計，給你最 Real 的心靈空間。
                 </p>
                 <div class="mt-10 flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                     <a href="#toolbox" class="primary-btn bg-pink-500 text-white font-bold py-3 px-8 text-lg hover:bg-pink-600 focus:ring-4 focus:ring-pink-300">
                         🕳️ 馬上找樹洞發洩
                     </a>
-                    <a href="#stress" class="primary-btn bg-white text-indigo-600 font-bold py-3 px-8 text-lg border-2 border-indigo-600 shadow-lg hover:bg-indigo-50 focus:ring-4 focus:ring-indigo-300">
+                    <a href="#stress" class="primary-btn bg-white text-indigo-600 font-bold py-3 px-8 text-lg border-2 border-indigo-600 shadow-lg hover:bg-indigo-50 focus:ring-4 focus:ring-indigo-300 dark-mode:bg-gray-700 dark-mode:text-indigo-300 dark-mode:border-indigo-400 dark-mode:hover:bg-gray-600">
                         🤔 看看大家在煩什麼
                     </a>
                 </div>
@@ -140,48 +147,48 @@
         </section>
 
         <!-- 區塊 2: 壓力圖鑑 (Relatable Stressors) -->
-        <section id="stress" class="py-20 sm:py-28 bg-white transition duration-300">
+        <section id="stress" class="py-20 sm:py-28 bg-white transition duration-500 dark-mode:bg-gray-800">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 text-center mb-12 transition duration-300">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 text-center mb-12 transition duration-500 dark-mode:text-white">
                     🤯 壓力圖鑑：高中職生煩惱圖鑑
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <!-- 壓力來源卡片 1：課業/考試 -->
-                    <div class="bg-gray-50 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 border-t-8 border-indigo-500">
-                        <h3 class="text-xl font-bold text-indigo-700 mb-2">📚 爆掉的進度</h3>
-                        <p class="text-gray-600 text-sm">明明已經很努力了，成績還是很普通。還有那些永遠考不完的**證照和檢定**... 累死誰？</p>
+                    <div class="bg-gray-50 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 border-t-8 border-indigo-500 dark-mode:bg-gray-700 dark-mode:border-indigo-400">
+                        <h3 class="text-xl font-bold text-indigo-700 mb-2 dark-mode:text-indigo-300">📚 爆掉的進度</h3>
+                        <p class="text-gray-600 text-sm dark-mode:text-gray-400">明明已經很努力了，成績還是很普通。還有那些永遠考不完的**證照和檢定**... 累死誰？</p>
                     </div>
                     <!-- 壓力來源卡片 2：人際關係 -->
-                    <div class="bg-gray-50 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 border-t-8 border-pink-500">
-                        <h3 class="text-xl font-bold text-pink-700 mb-2">🎭 小圈圈排擠</h3>
-                        <p class="text-gray-600 text-sm">社團、報告**萬惡的分組**、誰跟誰又吵架了。學會放生不適合的關係，你不是他們的太陽。</p>
+                    <div class="bg-gray-50 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 border-t-8 border-pink-500 dark-mode:bg-gray-700 dark-mode:border-pink-400">
+                        <h3 class="text-xl font-bold text-pink-700 mb-2 dark-mode:text-pink-300">🎭 小圈圈排擠</h3>
+                        <p class="text-gray-600 text-sm dark-mode:text-gray-400">社團、報告**萬惡的分組**、誰跟誰又吵架了。學會放生不適合的關係，你不是他們的太陽。</p>
                     </div>
                     <!-- 壓力來源卡片 3：未來/志向 -->
-                    <div class="bg-gray-50 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 border-t-8 border-yellow-500">
-                        <h3 class="text-xl font-bold text-yellow-700 mb-2">🧭 不知未來</h3>
-                        <p class="text-gray-600 text-sm">我到底該選升學還是就業？選了這個科系/組別真的對嗎？**沒人是神仙**，慢慢來，多試試看。</p>
+                    <div class="bg-gray-50 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 border-t-8 border-yellow-500 dark-mode:bg-gray-700 dark-mode:border-yellow-400">
+                        <h3 class="text-xl font-bold text-yellow-700 mb-2 dark-mode:text-yellow-300">🧭 不知未來</h3>
+                        <p class="text-gray-600 text-sm dark-mode:text-gray-400">我到底該選升學還是就業？選了這個科系/組別真的對嗎？**沒人是神仙**，慢慢來，多試試看。</p>
                     </div>
                     <!-- 壓力來源卡片 4：家庭/自我懷疑 -->
-                    <div class="bg-gray-50 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 border-t-8 border-green-500">
-                        <h3 class="text-xl font-bold text-green-700 mb-2">👻 假裝沒事</h3>
-                        <p class="text-gray-600 text-sm">怕讓家人失望，總是說「沒事」。但你不需要一直裝堅強，**允許自己崩潰一下**，再重新開機。</p>
+                    <div class="bg-gray-50 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 border-t-8 border-green-500 dark-mode:bg-gray-700 dark-mode:border-green-400">
+                        <h3 class="text-xl font-bold text-green-700 mb-2 dark-mode:text-green-300">👻 假裝沒事</h3>
+                        <p class="text-gray-600 text-sm dark-mode:text-gray-400">怕讓家人失望，總是說「沒事」。但你不需要一直裝堅強，**允許自己崩潰一下**，再重新開機。</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- 區塊 3: 情緒工具箱 (Emotional Toolbox) - 包含樹洞功能 -->
-        <section id="toolbox" class="py-20 sm:py-28 bg-indigo-50 transition duration-300">
+        <section id="toolbox" class="py-20 sm:py-28 bg-indigo-50 transition duration-500 dark-mode:bg-gray-900">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-indigo-900 text-center mb-12 transition duration-300">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-indigo-900 text-center mb-12 transition duration-500 dark-mode:text-white">
                     🧰 心情工具箱：發洩 + 重啟
                 </h2>
                 <div class="max-w-4xl mx-auto space-y-10">
                     
                     <!-- 新功能: 發洩樹洞 (Venting Tree Hole) -->
-                    <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-pink-400 transition duration-300">
-                        <h3 class="text-2xl font-bold text-pink-600 mb-4 text-center">🕳️ 專屬發洩樹洞 (匿名 Real Talk)</h3>
-                        <textarea id="vent-input" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-pink-500 focus:ring-pink-500 transition resize-none dark-mode:bg-gray-700 dark-mode:border-gray-600 dark-mode:text-white" rows="4" placeholder="輸入你現在超想罵、超想抱怨、或超想哭的事情... (這裡不會有人認識你)">不爽組員又雷我，報告都我在做！</textarea>
+                    <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-pink-400 transition duration-500 dark-mode:bg-gray-700 dark-mode:border-pink-500">
+                        <h3 class="text-2xl font-bold text-pink-600 mb-4 text-center dark-mode:text-pink-400">🕳️ 專屬發洩樹洞 (匿名 Real Talk)</h3>
+                        <textarea id="vent-input" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-pink-500 focus:ring-pink-500 transition resize-none dark-mode:bg-gray-600 dark-mode:border-gray-600 dark-mode:text-white" rows="4" placeholder="輸入你現在超想罵、超想抱怨、或超想哭的事情... (這裡不會有人認識你)">不爽組員又雷我，報告都我在做！</textarea>
                         
                         <div class="flex justify-center mt-4">
                             <button id="vent-submit-btn" class="primary-btn bg-pink-500 text-white font-bold py-3 px-8 text-lg hover:bg-pink-600 focus:ring-4 focus:ring-pink-300">
@@ -195,9 +202,9 @@
                     </div>
 
                     <!-- 隨機鼓勵小語生成器 -->
-                    <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-indigo-200 transition duration-300">
-                        <h3 class="text-2xl font-bold text-indigo-600 mb-4 text-center">💬 隨機鼓勵小語機 🚀</h3>
-                        <div class="text-center mb-6 h-24 flex items-center justify-center bg-indigo-50 rounded-xl p-4 italic text-gray-700 text-xl font-medium transition duration-300 dark-mode:bg-gray-700 dark-mode:text-indigo-200" id="quote-display">
+                    <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-indigo-200 transition duration-500 dark-mode:bg-gray-700 dark-mode:border-indigo-400">
+                        <h3 class="text-2xl font-bold text-indigo-600 mb-4 text-center dark-mode:text-indigo-400">💬 隨機鼓勵小語機 🚀</h3>
+                        <div class="text-center mb-6 h-24 flex items-center justify-center bg-indigo-50 rounded-xl p-4 italic text-gray-700 text-xl font-medium transition duration-500 dark-mode:bg-gray-600 dark-mode:text-indigo-200" id="quote-display">
                             點擊按鈕，獲得今日的專屬打氣！
                         </div>
                         <div class="flex justify-center">
@@ -208,14 +215,14 @@
                     </div>
 
                     <!-- 呼吸練習工具 -->
-                    <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-pink-200 transition duration-300">
-                        <h3 class="text-2xl font-bold text-pink-600 mb-4 text-center">🌬️ 視覺呼吸法：5 秒吸氣，5 秒吐氣</h3>
+                    <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-pink-200 transition duration-500 dark-mode:bg-gray-700 dark-mode:border-pink-400">
+                        <h3 class="text-2xl font-bold text-pink-600 mb-4 text-center dark-mode:text-pink-400">🌬️ 視覺呼吸法：5 秒吸氣，5 秒吐氣</h3>
                         <div class="text-center">
                             <div id="breathing-circle" class="scale-100"></div>
-                            <div id="breath-status" class="text-3xl font-extrabold text-green-600 transition duration-500">
+                            <div id="breath-status" class="text-3xl font-extrabold text-green-600 transition duration-500 dark-mode:text-green-400">
                                 準備好了嗎？
                             </div>
-                            <div id="breath-count" class="text-lg text-gray-500 mt-2">
+                            <div id="breath-count" class="text-lg text-gray-500 mt-2 dark-mode:text-gray-400">
                                 循環次數: 0
                             </div>
                         </div>
@@ -234,42 +241,42 @@
         </section>
 
         <!-- 區塊 4: 同溫層打氣 (Peer Support) -->
-        <section id="alone" class="py-20 sm:py-28 bg-white transition duration-300">
+        <section id="alone" class="py-20 sm:py-28 bg-white transition duration-500 dark-mode:bg-gray-800">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 text-center mb-12 transition duration-300">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 text-center mb-12 transition duration-500 dark-mode:text-white">
                     🫂 同溫層打氣：我們都一樣爛 (但會變好)
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- 打氣卡片 1 -->
-                    <div class="p-6 bg-yellow-50 rounded-3xl shadow-md border-b-4 border-yellow-400 transition duration-300">
-                        <p class="text-4xl mb-3">#人生好難</p>
-                        <p class="italic text-gray-700 mb-4">
+                    <div class="p-6 bg-yellow-50 rounded-3xl shadow-md border-b-4 border-yellow-400 transition duration-500 dark-mode:bg-gray-700 dark-mode:border-yellow-600">
+                        <p class="text-4xl mb-3 dark-mode:text-white">#人生好難</p>
+                        <p class="italic text-gray-700 mb-4 dark-mode:text-gray-300">
                             「我媽說我現在努力不夠，但她不知道我昨天熬夜趕專題。算了，**他們不懂啦**。我決定今晚去樓下買炸雞，先爽了再說。」
                         </p>
-                        <p class="text-right font-semibold text-yellow-800 text-sm">- 高二 D.Y. (普高) 🍕</p>
+                        <p class="text-right font-semibold text-yellow-800 text-sm dark-mode:text-yellow-400">- 高二 D.Y. (普高) 🍕</p>
                     </div>
                     <!-- 打氣卡片 2 -->
-                    <div class="p-6 bg-pink-50 rounded-3xl shadow-md border-b-4 border-pink-400 transition duration-300">
-                        <p class="text-4xl mb-3">#人際黑洞</p>
-                        <p class="italic text-gray-700 mb-4">
+                    <div class="p-6 bg-pink-50 rounded-3xl shadow-md border-b-4 border-pink-400 transition duration-500 dark-mode:bg-gray-700 dark-mode:border-pink-600">
+                        <p class="text-4xl mb-3 dark-mode:text-white">#人際黑洞</p>
+                        <p class="italic text-gray-700 mb-4 dark-mode:text-gray-300">
                             「誰說一定要有一群朋友？我現在只有 2 個真正能講屁話的，超讚。**質量比數量重要**，懂？」
                         </p>
-                        <p class="text-right font-semibold text-pink-800 text-sm">- 高職三 J.C. (餐飲科) 👯‍♀️</p>
+                        <p class="text-right font-semibold text-pink-800 text-sm dark-mode:text-pink-400">- 高職三 J.C. (餐飲科) 👯‍♀️</p>
                     </div>
                     <!-- 打氣卡片 3 -->
-                    <div class="p-6 bg-green-50 rounded-3xl shadow-md border-b-4 border-green-400 transition duration-300">
-                        <p class="text-4xl mb-3">#未來誰鳥</p>
-                        <p class="italic text-gray-700 mb-4">
+                    <div class="p-6 bg-green-50 rounded-3xl shadow-md border-b-4 border-green-400 transition duration-500 dark-mode:bg-gray-700 dark-mode:border-green-600">
+                        <p class="text-4xl mb-3 dark-mode:text-white">#未來誰鳥</p>
+                        <p class="italic text-gray-700 mb-4 dark-mode:text-gray-300">
                             「我還不知道要幹嘛啊！我學會計，但我喜歡畫畫。反正大學可以轉系，工作可以換。**別把自己鎖死啦，多試錯就是贏家**。」
                         </p>
-                        <p class="text-right font-semibold text-green-800 text-sm">- 高二 L.W. (資訊科) 🎮</p>
+                        <p class="text-right font-semibold text-green-800 text-sm dark-mode:text-green-400">- 高二 L.W. (資訊科) 🎮</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 區塊 5: 快速求助資源 (Quick Help Resources) - 顏色已調整為深玫瑰紅/酒紅 -->
-        <section id="help" class="py-20 sm:py-28 bg-rose-800 transition duration-300">
+        <!-- 區塊 5: 快速求助資源 (Quick Help Resources) -->
+        <section id="help" class="py-20 sm:py-28 bg-rose-800 transition duration-500">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-6">
                     🚨 救命專線：別等，現在就打！
@@ -306,7 +313,7 @@
     </main>
 
     <!-- 頁尾 (Footer) -->
-    <footer class="bg-gray-800 text-white py-8 transition duration-300">
+    <footer class="bg-gray-800 text-white py-8 transition duration-500 dark-mode:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p class="text-sm">Made with 💖. 本站不是專業醫療，有緊急需求請撥打救命專線。</p>
             <p class="text-xs mt-2 text-gray-400">🔥 高中職生，你們超猛的。</p>
@@ -331,10 +338,17 @@
             "你不需要很厲害才能開始，但你需要開始才能變得很厲害。",
             "如果你討厭現在的自己，至少試著喜歡現在的瀏海吧！💇‍♀️",
             "人生就是不斷地從錯誤中學習。你不是錯了，你只是在測試極限！🧪",
+            "別讓昨天的煩惱，偷走今天的快樂。🌞",
+            "你是獨一無二的，就像這個世界上沒有兩片完全相同的葉子一樣。🍃",
+            "每一次的失敗，都是成功的墊腳石。繼續往前走，你會到達你想去的地方。🚀",
+            "別忘了，連神明也有休息的時候。🦸‍♂️",
+            "你已經很努力了，給自己一個大大的讚~真的是太有實力了！👏",
+            "生活就像打遊戲升級，有時候需要暫停一下，補充能量再出發！💪",
+            "你不是一個人在戰鬥，這裡有一群和你一樣一起努力的朋友！🛡️",
+            "每個人都有自己的節奏，別急，慢慢來，總會找到屬於你的步調。🎵",
         ];
         
         const ventResponses = [
-            // 長篇輸入回覆
             "聽起來超級不爽的！🤯 不過沒事啦，爛事會過去的，你超耐打。",
             "喔不... 拍拍。我懂那種感覺，先去喝杯珍奶冷靜一下啦！🥤",
             "管他的！你已經盡力了。把這個當成今天的『登出』鍵吧。👋",
@@ -350,7 +364,9 @@
             const body = document.body;
             const sunIcon = document.getElementById('sun-icon');
             const moonIcon = document.getElementById('moon-icon');
+            // 使用 localStorage 儲存狀態
             const isDarkMode = body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
 
             if (isDarkMode) {
                 sunIcon.classList.add('hidden');
@@ -360,17 +376,40 @@
                 moonIcon.classList.add('hidden');
             }
         }
+        
+        // 載入時檢查並應用主題
+        function applySavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const sunIcon = document.getElementById('sun-icon');
+            const moonIcon = document.getElementById('moon-icon');
+            
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                body.classList.add('dark-mode');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            } else {
+                body.classList.remove('dark-mode');
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+            }
+        }
 
         // ----------------------------------------------------
         // 2. DOMContentLoaded 事件監聽與主邏輯
         // ----------------------------------------------------
         document.addEventListener('DOMContentLoaded', () => {
+            applySavedTheme(); // 載入時應用主題
+
             const mobileMenu = document.getElementById('mobile-menu');
             document.getElementById('menu-btn').addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
             mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+                link.addEventListener('click', () => {
+                    // 點擊連結後隱藏選單，並稍微延遲以等待平滑滾動完成
+                    setTimeout(() => mobileMenu.classList.add('hidden'), 300); 
+                });
             });
 
             document.getElementById('theme-toggle').addEventListener('click', toggleDarkMode);
@@ -383,6 +422,10 @@
                 const randomIndex = Math.floor(Math.random() * quotes.length);
                 quoteDisplay.textContent = quotes[randomIndex];
             });
+            // 第一次載入時先生成一句
+            const initialIndex = Math.floor(Math.random() * quotes.length);
+            quoteDisplay.textContent = quotes[initialIndex];
+
 
             // ----------------------------------------------------
             // 4. 發洩樹洞功能邏輯
@@ -419,14 +462,17 @@
             let timerId = null;
             let currentPhase = 0; // 0:吸氣 (放大), 1:吐氣 (縮小)
             let count = 0;
-            const cycleDuration = 5000; // 5 seconds per phase
+            const cycleDuration = 5000; // 5 seconds per phase (5000ms)
 
             function runCycle() {
+                const isDarkMode = document.body.classList.contains('dark-mode');
+                
                 if (currentPhase === 0) {
                     // 吸氣：放大
                     circle.style.transform = 'scale(2)';
+                    circle.style.backgroundColor = isDarkMode ? '#f97316' : '#f472b6'; // 暖色系 (橘/粉)
                     statusDisplay.textContent = "😮‍💨 吸氣 (5秒)";
-                    statusDisplay.className = 'text-3xl font-extrabold text-blue-600 transition duration-500';
+                    statusDisplay.className = 'text-3xl font-extrabold text-blue-600 transition duration-500 dark-mode:text-orange-400';
                     
                     count++;
                     countDisplay.textContent = `循環次數: ${count}`;
@@ -434,8 +480,9 @@
                 } else {
                     // 吐氣：縮小
                     circle.style.transform = 'scale(1)';
+                    circle.style.backgroundColor = isDarkMode ? '#10b981' : '#10b981'; // 冷色系 (綠)
                     statusDisplay.textContent = "😌 吐氣 (5秒)";
-                    statusDisplay.className = 'text-3xl font-extrabold text-green-600 transition duration-500';
+                    statusDisplay.className = 'text-3xl font-extrabold text-green-600 transition duration-500 dark-mode:text-teal-400';
                     currentPhase = 0;
                 }
                 
@@ -449,10 +496,24 @@
                     startBtn.disabled = true;
                     stopBtn.disabled = false;
                     count = 0;
-                    currentPhase = 0;
+                    currentPhase = 1; // 設定為 1，讓 runCycle 第一次執行時進入 Phase 0 (吸氣)
+                    
                     // 初始設定 transition time
                     circle.style.transitionDuration = `${cycleDuration}ms`; 
-                    runCycle();
+                    
+                    // 倒數計時準備
+                    statusDisplay.textContent = "準備開始 (3)";
+                    let prepCount = 3;
+                    statusDisplay.className = 'text-3xl font-extrabold text-gray-500 transition duration-500 dark-mode:text-gray-400';
+                    const prepInterval = setInterval(() => {
+                        prepCount--;
+                        if (prepCount > 0) {
+                            statusDisplay.textContent = `準備開始 (${prepCount})`;
+                        } else {
+                            clearInterval(prepInterval);
+                            runCycle();
+                        }
+                    }, 1000);
                 }
             });
 
@@ -462,9 +523,12 @@
                 timerId = null;
                 startBtn.disabled = false;
                 stopBtn.disabled = true;
+                const isDarkMode = document.body.classList.contains('dark-mode');
                 statusDisplay.textContent = "✅ 練習結束，感覺好多了嗎？";
-                statusDisplay.className = `text-3xl font-extrabold text-indigo-600 transition duration-500`;
+                statusDisplay.className = `text-3xl font-extrabold text-indigo-600 transition duration-500 dark-mode:text-indigo-300`;
+                circle.style.transitionDuration = '0.3s';
                 circle.style.transform = 'scale(1)'; // 回歸原始大小
+                circle.style.backgroundColor = isDarkMode ? '#db2777' : '#f472b6'; // 回歸初始色
             });
         });
     </script>
